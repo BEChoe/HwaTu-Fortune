@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>화투 오늘의 운세 | 花鬪 運勢</title>
+  <style>
+    :root {
+      --bg-dark: #120e0d;
+      --bg-board: #201713;
+      --board-felt: #1a4329;
+      --lacquer-red: #9e1b1b;
+      --lacquer-red-light: #c22727;
+      --gold: #d4af37;
+      --gold-light: #f7e28b;
+      --gold-dark: #997819;
+      --card-bg: #ffffff;
+      --card-back: #c5221f;
+      --card-border: #222222;
+      --text-main: #f5f0eb;
+      --text-muted: #b8aba0;
+      --card-w: 72px;
+      --card-h: 114px;
+      --card-radius: 7px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(158, 27, 27, 0.22) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 8px);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(180deg, rgba(14, 10, 8, 0.95) 0%, rgba(26, 18, 14, 0.88) 100%);
+      border-bottom: 2px solid var(--gold-dark);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--lacquer-red) 0%, #630c0c 100%);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      position: relative;
+    }
+
+    .logo-badge::after {
+      content: "光";
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--gold-light);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      font-family: "Hanja", "Batang", serif;
+    }
+
+    .title-group h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #fff 0%, var(--gold-light) 60%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .title-group p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--text-main);
+      padding: 7px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold);
+      color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    /* NAVIGATION TABS: 패뜨기 1차 모드(기본), 패 뽑기 2차 모드 */
+    .tab-bar {
+      display: flex;
+      justify-content: center;
+      background: rgba(18, 13, 11, 0.75);
+      padding: 10px 16px;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .tab-btn {
+      background: rgba(40, 28, 22, 0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-muted);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--lacquer-red) 0%, #701111 100%);
+      border-color: var(--gold);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(158, 27, 27, 0.45);
+      transform: translateY(-2px);
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      flex: 1;
+      max-width: 1220px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 20px 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-section {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .view-section.active {
+      display: flex;
+    }
+
+    /* HWATU CARD STYLE - 특징이 직관적으로 보이는 고화질 디자인 */
+    .hwatu-card {
+      width: var(--card-w);
+      height: var(--card-h);
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: var(--card-radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+
+    .hwatu-card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid var(--card-border);
+      box-sizing: border-box;
+    }
+
+    /* CARD BACK (정통 붉은 화투패 뒷면) */
+    .card-back {
+      background: var(--card-back);
+      background-image: 
+        repeating-linear-gradient(45deg, #a41b18 0, #a41b18 2px, transparent 2px, transparent 6px),
+        repeating-linear-gradient(-45deg, #a41b18 0, #a41b18 2px, #bd211e 2px, #bd211e 6px);
+      border: 2px solid #5a0b0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-back::before {
+      content: "";
+      width: 68%;
+      height: 72%;
+      border: 1.5px dashed rgba(255, 230, 160, 0.45);
+      border-radius: 4px;
+      display: block;
+    }
+
+    .card-back::after {
+      content: "福";
+      position: absolute;
+      font-size: 15px;
+      font-weight: bold;
+      color: rgba(255, 225, 145, 0.9);
+      font-family: serif;
+    }
+
+    /* CARD FRONT (화투 앞면 - 특징 완전 부각) */
+    .card-front {
+      background: #ffffff;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-color: #2b2b2b;
+    }
+
+    /* 등급별 카드 외곽 테두리 강조 */
+    .hwatu-card.is-bright .card-front {
+      border: 2.5px solid #d4af37;
+      box-shadow: inset 0 0 6px rgba(212, 175, 55, 0.4);
+    }
+
+    .hwatu-card.is-animal .card-front {
+      border: 2px solid #2e7d32;
+    }
+
+    .hwatu-card.is-ribbon-red .card-front {
+      border: 2px solid #c62828;
+    }
+
+    .hwatu-card.is-ribbon-blue .card-front {
+      border: 2px solid #1565c0;
+    }
+
+    .hwatu-card.is-double .card-front {
+      border: 2.5px solid #ef6c00;
+      box-shadow: inset 0 0 6px rgba(239, 108, 0, 0.35);
+    }
+
+    /* 상단 배지 헤더 (월 + 종류) */
+    .card-header-badge {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 4px;
+      background: #f7f3ee;
+      border-bottom: 1.5px solid #e0d8cc;
+      line-height: 1;
+      height: 18px;
+    }
+
+    .badge-month {
+      font-size: 10px;
+      font-weight: 900;
+      color: #900c0c;
+      letter-spacing: -0.3px;
+    }
+
+    .badge-type {
+      padding: 1.5px 4px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .badge-type.bright {
+      background: #c5221f;
+      color: #fffb8f;
+      border: 1px solid #ffd700;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .badge-type.animal {
+      background: #1b5e20;
+      color: #ffffff;
+    }
+
+    .badge-type.ribbon-red {
+      background: #d32f2f;
+      color: #ffffff;
+    }
+
+    .badge-type.ribbon-blue {
+      background: #1565c0;
+      color: #ffffff;
+    }
+
+    .badge-type.ribbon-plain {
+      background: #6a1b9a;
+      color: #ffffff;
+    }
+
+    .badge-type.double {
+      background: #ef6c00;
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .badge-type.junk {
+      background: #616161;
+      color: #ffffff;
+      font-size: 8px;
+    }
+
+    /* 광(光) 워터마크 원형 엠블럼 - 화투 중앙에 크게 각인 */
+    .bright-stamp {
+      position: absolute;
+      top: 20px;
+      right: 4px;
+      width: 22px;
+      height: 22px;
+      background: radial-gradient(circle, #d32f2f 0%, #8b0000 100%);
+      border: 1.5px solid #ffd700;
+      border-radius: 50%;
+      color: #fffb8f;
+      font-weight: 900;
+      font-size: 12px;
+      font-family: serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      z-index: 5;
+    }
+
+    /* 쌍피 리본 마크 */
+    .double-stamp {
+      position: absolute;
+      top: 20px;
+      right: 4px;
+      padding: 1px 4px;
+      background: #ef6c00;
+      border: 1px solid #ffcc80;
+      border-radius: 3px;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 9px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      z-index: 5;
+    }
+
+    .card-artwork {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .card-artwork svg, .card-artwork .hwatu-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+    .card-bottom-label {
+      font-size: 8.5px;
+      text-align: center;
+      color: #2b2b2b;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 1px 2px;
+      background: #f7f3ee;
+      border-top: 1px solid #e0d8cc;
+      height: 16px;
+      line-height: 14px;
+    }
+
+    /* BOARD WRAPPER (초록 모포 매트 화투판) */
+    .mat-board {
+      background: radial-gradient(circle at 50% 50%, #1e5c36 0%, #143d24 85%, #0d2818 100%);
+      border: 8px solid #3c2417;
+      outline: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 
+        inset 0 0 45px rgba(0,0,0,0.85),
+        0 14px 40px rgba(0,0,0,0.7);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 480px;
+    }
+
+    /* MODE 1: TRADITIONAL MATCHING (패뜨기 - 기본 모드) */
+    .trad-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .trad-stats {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .stat-pill {
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .stat-pill span {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-left: 4px;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #c5221f 0%, #871412 100%);
+      color: #fff;
+      border: 1px solid var(--gold);
+      padding: 9px 20px;
+      border-radius: 22px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      background: linear-gradient(135deg, #db2c29 0%, #9e1a17 100%);
+      box-shadow: 0 6px 16px rgba(197, 34, 31, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .btn-action:active {
+      transform: translateY(0);
+    }
+
+    /* 12 MONTH PILES GRID */
+    .month-piles-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .month-piles-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .month-piles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+    }
+
+    .month-slot-card {
+      background: rgba(0,0,0,0.35);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .month-slot-card.completed {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: var(--gold);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+    }
+
+    .month-slot-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .month-meaning-badge {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .month-cards-stack {
+      width: 66px;
+      height: 104px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px dashed rgba(255,255,255,0.25);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.25);
+    }
+
+    .month-cards-stack .hwatu-card {
+      width: 64px;
+      height: 102px;
+      position: absolute;
+    }
+
+    .month-count-badge {
+      position: absolute;
+      bottom: -7px;
+      right: -7px;
+      background: #2b2b2b;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 900;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--gold);
+      z-index: 10;
+    }
+
+    .month-slot-card.completed .month-count-badge {
+      background: #c5221f;
+      color: #fff;
+    }
+
+    .completed-stamp {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      border: 2px solid #ff1744;
+      color: #ff1744;
+      background: rgba(0,0,0,0.8);
+      padding: 4px 8px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      border-radius: 4px;
+      z-index: 20;
+      pointer-events: none;
+      animation: stampPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes stampPop {
+      0% { transform: translate(-50%, -50%) rotate(-15deg) scale(2); opacity: 0; }
+      100% { transform: translate(-50%, -50%) rotate(-15deg) scale(1); opacity: 1; }
+    }
+
+    /* TRAD DRAWING DECK & CURRENT CARD */
+    .trad-deck-area {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.38);
+      padding: 18px 28px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .draw-pile-group, .current-card-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pile-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .draw-pile-box {
+      width: 74px;
+      height: 116px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .draw-pile-box .card-layer {
+      position: absolute;
+      width: 72px;
+      height: 114px;
+      border-radius: var(--card-radius);
+      background: var(--card-back);
+      border: 2px solid #5a0b0a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .slot-box {
+      width: 78px;
+      height: 122px;
+      border: 2px dashed rgba(255, 235, 180, 0.45);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .slot-box .hwatu-card {
+      width: 74px;
+      height: 118px;
+    }
+
+    /* MODE 2: DAILY DRAW (2차 모드) */
+    .mode-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 10px 18px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .draw-type-select {
+      display: flex;
+      gap: 16px;
+    }
+
+    .draw-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .draw-radio-label input[type="radio"] {
+      accent-color: var(--lacquer-red);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .instruction-text {
+      color: var(--gold-light);
+      font-size: 0.96rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      margin-bottom: 16px;
+      font-weight: 700;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+
+    
+    /* SIDE-BY-SIDE DRAW WORKSPACE: 확인창 2배(2/3), 셔플창 1/2(1/3) */
+    .draw-workspace {
+      display: flex;
+      width: 100%;
+      gap: 20px;
+      align-items: stretch;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 960px) {
+      .draw-workspace {
+        flex-direction: column;
+      }
+    }
+
+    /* 좌측: 패 확인 창 (셔플창의 2배 크기, 넓고 시원한 뷰) */
+    .drawn-verify-area {
+      flex: 2 1 66%;
+      min-width: 480px;
+      background: rgba(12, 8, 6, 0.75);
+      border: 2px solid rgba(212, 175, 55, 0.45);
+      border-radius: 16px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 6px 20px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 5;
+    }
+
+    @media (max-width: 960px) {
+      .drawn-verify-area {
+        flex: 1 1 100%;
+        min-width: 0;
+        width: 100%;
+      }
+    }
+
+    .area-header-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .area-header-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    /* 우측: 셔플링 창 (1/2 크기의 컴팩트 덱) */
+    .deck-shuffle-area {
+      flex: 1 1 33%;
+      max-width: 380px;
+      min-width: 260px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 16px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.45);
+      overflow: visible;
+    }
+
+    @media (max-width: 960px) {
+      .deck-shuffle-area {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    /* 패 확인 창 내부: 2배 크기로 시원하게 확대된 슬롯 및 카드 */
+    .drawn-slots-container {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .drawn-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .drawn-verify-area .slot-label {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      background: rgba(0,0,0,0.7);
+      padding: 4px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      letter-spacing: 0.5px;
+    }
+
+    .drawn-verify-area .slot-box {
+      width: 118px;
+      height: 182px;
+      border: 2px dashed rgba(255, 235, 180, 0.6);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      box-shadow: inset 0 2px 12px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .drawn-verify-area .slot-box .hwatu-card {
+      width: 110px;
+      height: 174px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    /* 2배 확대된 카드 내부 뱃지/라벨/인장 스케일 업 */
+    .drawn-verify-area .card-header-badge {
+      height: 23px;
+      padding: 2px 6px;
+    }
+
+    .drawn-verify-area .badge-month {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .drawn-verify-area .badge-type {
+      font-size: 11px;
+      padding: 2px 6px;
+    }
+
+    .drawn-verify-area .card-bottom-label {
+      font-size: 11.5px;
+      height: 22px;
+      line-height: 20px;
+      font-weight: 900;
+    }
+
+    .drawn-verify-area .bright-stamp {
+      width: 32px;
+      height: 32px;
+      font-size: 17px;
+      top: 26px;
+      right: 6px;
+    }
+
+    .drawn-verify-area .double-stamp {
+      font-size: 11px;
+      padding: 2px 6px;
+      top: 26px;
+      right: 6px;
+    }
+
+    /* 우측 셔플 덱: 1/2 크기에 맞춘 아담하고 빽빽한 부채꼴 */
+    .deck-shuffle-area .deck-fan-wrapper {
+      width: 100%;
+      height: 210px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      overflow: visible;
+    }
+
+    .deck-shuffle-area .deck-card {
+      width: 52px;
+      height: 84px;
+      position: absolute;
+      bottom: 8px;
+      transform-origin: center 200px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.4, 1.2);
+    }
+
+    .deck-shuffle-area .deck-card:hover {
+      transform: translateY(-26px) scale(1.15) !important;
+      z-index: 100 !important;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.8);
+    }
+
+
+    /* FORTUNE RESULT PANEL */
+    .result-panel {
+      background: linear-gradient(145deg, rgba(38, 26, 21, 0.96) 0%, rgba(22, 15, 12, 0.98) 100%);
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      padding: 24px;
+      width: 100%;
+      max-width: 880px;
+      margin: 20px auto 0;
+      box-shadow: 0 10px 32px rgba(0,0,0,0.85);
+      display: none;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .result-header h2 {
+      font-size: 1.6rem;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .result-score-stars {
+      color: #ffca28;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .result-headline {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .result-box {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 16px;
+      border-left: 4px solid var(--gold);
+    }
+
+    .result-box h3 {
+      font-size: 0.95rem;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .result-box p {
+      font-size: 0.88rem;
+      color: #ece5df;
+      line-height: 1.55;
+    }
+
+    .lucky-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .lucky-tag {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--gold-light);
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .result-footer {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 16px;
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, #241814 0%, #17100d 100%);
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px;
+      color: var(--text-main);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h3 {
+      color: var(--gold-light);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .modal-table th, .modal-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      text-align: left;
+    }
+
+    .modal-table th {
+      color: var(--gold-light);
+      background: rgba(0,0,0,0.25);
+    }
+
+    .modal-table tr:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(50px);
+      background: rgba(14, 10, 8, 0.95);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 2000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* COMFORT MODE (위로 모드) */
+    .comfort-mode-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 64, 129, 0.12);
+      border: 1.5px solid rgba(255, 128, 171, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      color: #ffcdd2;
+    }
+
+    .comfort-mode-toggle:hover {
+      background: rgba(255, 64, 129, 0.22);
+      border-color: #ff80ab;
+      transform: translateY(-1px);
+    }
+
+    .comfort-mode-toggle.active {
+      background: linear-gradient(135deg, #d81b60 0%, #ad1457 100%);
+      border-color: #ff4081;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(255, 64, 129, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .comfort-mode-toggle .pill-text {
+      font-size: 0.88rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .comfort-badge-70 {
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #ff80ab;
+      border: 1px solid rgba(255, 128, 171, 0.3);
+    }
+
+    .comfort-mode-toggle.active .comfort-badge-70 {
+      background: #ffeb3b;
+      color: #880e4f;
+      border-color: #fff;
+    }
+
+    .comfort-banner {
+      background: linear-gradient(135deg, rgba(233, 30, 99, 0.25) 0%, rgba(156, 39, 176, 0.25) 100%);
+      border: 1.5px solid #ff80ab;
+      border-radius: 10px;
+      padding: 10px 16px;
+      margin-bottom: 18px;
+      text-align: center;
+      color: #ffebee;
+      font-size: 0.92rem;
+      box-shadow: 0 2px 10px rgba(233, 30, 99, 0.2);
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PROBABILITY MODE SELECTOR BUTTONS (일반 모드 vs 위로 모드 선택 버튼) */
+    .probability-mode-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 5px 12px;
+      border-radius: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      flex-wrap: wrap;
+    }
+
+    .prob-group-label {
+      font-size: 0.83rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .segmented-control {
+      display: flex;
+      gap: 6px;
+      background: rgba(22, 15, 12, 0.8);
+      padding: 3px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .segment-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .segment-btn small {
+      font-size: 0.72rem;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ddd;
+      font-weight: 800;
+    }
+
+    .segment-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .segment-btn.active {
+      background: linear-gradient(135deg, var(--lacquer-red) 0%, #681111 100%);
+      color: #fff;
+      border-color: var(--gold);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .segment-btn.comfort-segment.active {
+      background: linear-gradient(135deg, #d81b60 0%, #ad1457 100%);
+      border-color: #ff80ab;
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(255, 64, 129, 0.6);
+    }
+
+    .segment-btn.comfort-segment.active small {
+      background: #ffeb3b;
+      color: #880e4f;
+      font-weight: 900;
+    }
+
+    /* HEADER COMFORT BUTTON ACTIVE */
+    .btn-icon.comfort-active {
+      background: linear-gradient(135deg, #d81b60 0%, #ad1457 100%);
+      border-color: #ff80ab;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 64, 129, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="logo-badge"></div>
+      <div class="title-group">
+        <h1>화투 오늘의 운세 <span style="font-size: 0.9rem; opacity: 0.8;">花鬪 運勢</span></h1>
+        <p>전통 화투 48패로 점치는 오늘의 길흉화복과 소원</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- 위로 모드 헤더 바로가기 버튼 -->
+      <button class="btn-icon" id="headerComfortBtn" title="지친 하루를 위한 위로 모드">
+        <span>💖</span> <span id="headerComfortText">위로 모드 OFF</span>
+      </button>
+      <!-- 음소거 버튼 -->
+      <button class="btn-icon" id="soundToggleBtn">
+        <span id="soundIcon">🔇</span> <span id="soundText">소리 켜기</span>
+      </button>
+      <button class="btn-icon" id="infoBtn">
+        <span>📖</span> 화투 도감 & 점괘 안내
+      </button>
+    </div>
+  </header>
+
+  <!-- TAB BAR: 3패 운수가 기본 1차 모드, 화투점이 2차 모드 -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="draw-mode">
+      <span>🎴</span> 3패 운수 (오늘의 운세)
+    </button>
+    <button class="tab-btn" data-tab="trad-mode">
+      <span>🎯</span> 화투점 (전통 4패 모으기 소원점)
+    </button>
+  </div>
+
+  <!-- MAIN VIEW CONTAINER -->
+  <main>
+
+    <!-- SECTION 1 (기본 모드): 패뜨기 (전통 화투점) -->
+    <section id="trad-mode" class="view-section">
+      <div class="mat-board">
+        <div class="trad-controls">
+          <div class="trad-stats">
+            <div class="stat-pill">남은 패: <span id="tradRemaining">48</span>장</div>
+            <div class="stat-pill">4장 모인 달: <span id="tradMatches">0</span> / 12</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-action" id="tradNextBtn">
+              <span>🎴</span> 패 한 장 뒤집기
+            </button>
+            <button class="btn-action" id="tradAutoBtn" style="background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%); border-color: #90caf9;">
+              <span>⚡</span> 자동 풀이
+            </button>
+            <button class="btn-action" id="tradResetBtn" style="background: #3e2723;">
+              <span>🔄</span> 다시 섞기
+            </button>
+          </div>
+        </div>
+
+        <!-- 12 MONTH PILES -->
+        <div class="month-piles-grid" id="monthPilesGrid">
+          <!-- 12 month boxes -->
+        </div>
+
+        <!-- TRAD DECK DRAW AREA -->
+        <div class="trad-deck-area">
+          <div class="draw-pile-group">
+            <div class="pile-title">뒤집을 패 더미</div>
+            <div class="draw-pile-box" id="tradDrawDeck" title="클릭하여 패를 뒤집으세요">
+              <div class="card-layer" style="top:0; left:0;"></div>
+              <div class="card-layer" style="top:-3px; left:-3px;"></div>
+              <div class="card-layer" style="top:-6px; left:-6px;"></div>
+            </div>
+          </div>
+
+          <div class="current-card-group">
+            <div class="pile-title">방금 나온 패</div>
+            <div class="slot-box" id="tradCurrentSlot">
+              <span style="font-size:0.75rem; color:#777;">패를 뒤집으세요</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRAD RESULT PANEL -->
+      <div class="result-panel" id="tradResultPanel">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- SECTION 2 (2차 모드): 오늘의 패 고르기 (1장 / 3장 운세) -->
+    <section id="draw-mode" class="view-section active">
+      <div class="mat-board">
+        <div class="mode-bar">
+          <div class="draw-type-select">
+            <label class="draw-radio-label">
+              <input type="radio" name="drawCount" value="3" checked>
+              <span>3장 고르기 (아침 / 점심 / 저녁 운세 - 추천)</span>
+            </label>
+            <label class="draw-radio-label">
+              <input type="radio" name="drawCount" value="1">
+              <span>1장 고르기 (오늘의 총운)</span>
+            </label>
+          </div>
+
+          <!-- 위로 모드 선택 버튼 그룹 (일반 모드 vs 위로 모드) -->
+          <div class="probability-mode-group">
+            <span class="prob-group-label">운세 모드 선택:</span>
+            <div class="segmented-control">
+              <button type="button" class="segment-btn active" id="btnNormalMode" title="일반 모드">
+                <span>🎲 일반 모드</span>
+              </button>
+              <button type="button" class="segment-btn comfort-segment" id="btnComfortMode" title="위로 모드">
+                <span>💖 위로 모드</span>
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-action" id="reshuffleBtn">
+            <span>🔄</span> 패 다시 섞기
+          </button>
+        </div>
+
+        <div class="instruction-text" id="drawInstruction">
+          마음을 가다듬고 아래 펼쳐진 패 중 1장을 신중히 골라주세요.
+        </div>
+
+        <!-- 2단 레이아웃: 좌측(패 확인 창) & 우측(셔플링 및 패 선택 덱) -->
+        <div class="draw-workspace">
+          <!-- 좌측: 패 확인 창 (가려짐 방지 독립 영역) -->
+          <div class="drawn-verify-area">
+            <div class="area-header-title">
+              <span>🎴</span> 뽑힌 패 확인 창
+            </div>
+            <div class="area-header-desc">
+              선택하신 패가 아래 슬롯에 실시간으로 표시됩니다
+            </div>
+            <div class="drawn-slots-container" id="drawnSlotsContainer">
+              <!-- Dynamic slot rendering -->
+            </div>
+          </div>
+
+          <!-- 우측: 셔플링 및 패 선택 덱 -->
+          <div class="deck-shuffle-area">
+            <div class="area-header-title">
+              <span>🖐️</span> 화투패 셔플 & 고르기
+            </div>
+            <div class="area-header-desc">
+              마음에 닿는 패를 직접 클릭하여 뽑아보세요
+            </div>
+            <div class="deck-fan-wrapper" id="deckFanWrapper">
+              <!-- 48 cards fan out dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRAW RESULT DETAIL PANEL -->
+      <div class="result-panel" id="drawResultPanel">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: HWATU ENCYCLOPEDIA & MEANINGS -->
+  <div class="modal-backdrop" id="infoModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🎴 화투 12달 상징 및 운세 풀이 도감</h3>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+      <p style="font-size: 0.88rem; color: #d0c5bc; margin-bottom: 16px; line-height: 1.5;">
+        한국의 전통 화투점은 48장의 패가 상징하는 12달의 자연과 민속적 의미를 통해 오늘의 운수를 읽어냅니다.
+      </p>
+      <table class="modal-table">
+        <thead>
+          <tr>
+            <th>월(月)</th>
+            <th>식물 / 패 구성</th>
+            <th>전통 상징어</th>
+            <th>오늘의 운세 의미</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1월</strong></td>
+            <td>송학 (소나무와 학) / <strong>1광</strong>, 홍단, 피2</td>
+            <td><strong>소식 (기별)</strong></td>
+            <td>기다리던 연락, 반가운 귀인, 새로운 일의 시작</td>
+          </tr>
+          <tr>
+            <td><strong>2월</strong></td>
+            <td>매조 (매화와 새) / <strong>고도리</strong>, 홍단, 피2</td>
+            <td><strong>임 (연인)</strong></td>
+            <td>정다운 사람과의 만남, 애정운 상승, 화합</td>
+          </tr>
+          <tr>
+            <td><strong>3월</strong></td>
+            <td>벚꽃 (사쿠라와 만막) / <strong>3광</strong>, 홍단, 피2</td>
+            <td><strong>소풍 (나들이)</strong></td>
+            <td>여행, 외출, 기분 좋은 활동, 생기 넘치는 하루</td>
+          </tr>
+          <tr>
+            <td><strong>4월</strong></td>
+            <td>흑싸리 (등나무와 새) / 10끗, 초단, 피2</td>
+            <td><strong>구설수 (말조심)</strong></td>
+            <td>사소한 말실수 주의, 신중한 처신, 오해 방지</td>
+          </tr>
+          <tr>
+            <td><strong>5월</strong></td>
+            <td>난초 (창포와 다리) / 10끗, 초단, 피2</td>
+            <td><strong>국수 (음식)</strong></td>
+            <td>식복(食福), 맛있는 음식 대접, 즐거운 모임</td>
+          </tr>
+          <tr>
+            <td><strong>6월</strong></td>
+            <td>모란 (목단과 나비) / 10끗, 청단, 피2</td>
+            <td><strong>기쁨 (화목)</strong></td>
+            <td>경사스러운 소식, 풍요로움, 뜻밖의 즐거움</td>
+          </tr>
+          <tr>
+            <td><strong>7월</strong></td>
+            <td>홍싸리 (싸리와 멧돼지) / 10끗, 초단, 피2</td>
+            <td><strong>횡재 (돈)</strong></td>
+            <td>뜻밖의 재물, 당첨운, 과감한 추진력</td>
+          </tr>
+          <tr>
+            <td><strong>8월</strong></td>
+            <td>팔공산 (공산명월과 달) / <strong>8광</strong>, <strong>고도리</strong>, 피2</td>
+            <td><strong>달 (소원 성취)</strong></td>
+            <td>보름달처럼 꽉 찬 결실, 시험/목표 합격 대길</td>
+          </tr>
+          <tr>
+            <td><strong>9월</strong></td>
+            <td>국진 (국화와 술잔) / <strong>쌍피겸용(10끗)</strong>, 청단, 피2</td>
+            <td><strong>술 (풍류)</strong></td>
+            <td>여유와 힐링, 축하할 일, 스트레스 해소</td>
+          </tr>
+          <tr>
+            <td><strong>10월</strong></td>
+            <td>단풍 (단풍나무와 사슴) / 10끗, 청단, 피2</td>
+            <td><strong>근심 (신중)</strong></td>
+            <td>무리한 확장 금지, 차분한 정리와 건강 유의</td>
+          </tr>
+          <tr>
+            <td><strong>11월</strong></td>
+            <td>오동 (똥/봉황) / <strong>11광</strong>, <strong>쌍피</strong>, 피2</td>
+            <td><strong>돈 (대박)</strong></td>
+            <td>가장 큰 금전운과 행운, 수확, 큰 보상</td>
+          </tr>
+          <tr>
+            <td><strong>12월</strong></td>
+            <td>비 (비선생과 버드나무) / <strong>비광</strong>, 10끗, <strong>쌍피</strong>, 비띠</td>
+            <td><strong>손님 (귀인)</strong></td>
+            <td>뜻밖의 방문객, 지혜로운 위기 극복, 전화위복</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* =========================================================
+       1. WEB AUDIO API SYNTHESIZER (2. 기본 모드: 음소거)
+       ========================================================= */
+    class HwatuAudio {
+      constructor() {
+        this.ctx = null;
+        this.muted = true; // 기본 음소거 상태!
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggleMute() {
+        this.muted = !this.muted;
+        return this.muted;
+      }
+
+      playCardSlap() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const bufferSize = this.ctx.sampleRate * 0.05;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const noiseFilter = this.ctx.createBiquadFilter();
+        noiseFilter.type = 'lowpass';
+        noiseFilter.frequency.setValueAtTime(3200, now);
+        noiseFilter.frequency.exponentialRampToValueAtTime(400, now + 0.05);
+
+        const noiseGain = this.ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.7, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+
+        noise.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(this.ctx.destination);
+
+        const osc = this.ctx.createOscillator();
+        const oscGain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.exponentialRampToValueAtTime(60, now + 0.08);
+
+        oscGain.gain.setValueAtTime(0.9, now);
+        oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+        osc.connect(oscGain);
+        oscGain.connect(this.ctx.destination);
+
+        noise.start(now);
+        osc.start(now);
+        osc.stop(now + 0.09);
+      }
+
+      playCardFlip() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.04);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.1);
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.1);
+      }
+
+      playShuffle() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        for (let i = 0; i < 6; i++) {
+          setTimeout(() => {
+            this.playCardFlip();
+          }, i * 40);
+        }
+      }
+
+      playWinChime() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+
+        const notes = [392.00, 440.00, 523.25, 587.33, 659.25];
+        const now = this.ctx.currentTime;
+
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+
+          gain.gain.setValueAtTime(0.001, now + idx * 0.09);
+          gain.gain.linearRampToValueAtTime(0.25, now + idx * 0.09 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.09 + 0.6);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(now + idx * 0.09);
+          osc.stop(now + idx * 0.09 + 0.65);
+        });
+      }
+    }
+
+    const audio = new HwatuAudio();
+
+    /* =========================================================
+       2. HWATU 48 CARDS DATA & ENHANCED SVG (특징 부각 디자인)
+       ========================================================= */
+    const MONTH_META = {
+      1: { name: '1월 송학', plant: '소나무', symbol: '소식 (기별)', color: '#b71c1c' },
+      2: { name: '2월 매화', plant: '매화', symbol: '임 (연인)', color: '#d81b60' },
+      3: { name: '3월 벚꽃', plant: '벚꽃', symbol: '소풍 (나들이)', color: '#e91e63' },
+      4: { name: '4월 흑싸리', plant: '등나무', symbol: '구설수 (말조심)', color: '#4a148c' },
+      5: { name: '5월 난초', plant: '창포', symbol: '국수 (식복)', color: '#6a1b9a' },
+      6: { name: '6월 모란', plant: '목단', symbol: '기쁨 (화합)', color: '#c2185b' },
+      7: { name: '7월 홍싸리', plant: '싸리나무', symbol: '횡재 (돈)', color: '#d32f2f' },
+      8: { name: '8월 팔공산', plant: '억새', symbol: '달 (소원 성취)', color: '#212121' },
+      9: { name: '9월 국진', plant: '국화', symbol: '술 (풍류)', color: '#f57f17' },
+      10: { name: '10월 단풍', plant: '단풍', symbol: '근심 (신중)', color: '#e65100' },
+      11: { name: '11월 오동', plant: '오동', symbol: '돈 (대박)', color: '#1b5e20' },
+      12: { name: '12월 비', plant: '버드나무', symbol: '손님 (귀인)', color: '#0d47a1' }
+    };
+
+    // 정밀하고 또렷한 SVG 일러스트
+    function getCardSvg(month, cardType, subId) {
+      switch(month) {
+        case 1: // 1월 솔
+          if (cardType === 'bright') {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="50" cy="42" r="32" fill="#d32f2f" />
+              <path d="M5,130 Q35,65 50,82 Q65,100 95,130 Z" fill="#1b5e20"/>
+              <!-- 학 두루미 -->
+              <ellipse cx="50" cy="56" rx="15" ry="10" fill="#ffffff"/>
+              <path d="M57,54 Q65,48 63,36 Q61,32 56,34" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <circle cx="56" cy="33" r="3.5" fill="#d32f2f"/>
+              <polygon points="41,58 26,70 38,62" fill="#212121"/>
+              <line x1="46" y1="65" x2="44" y2="86" stroke="#212121" stroke-width="2.5"/>
+              <line x1="53" y1="65" x2="55" y2="86" stroke="#212121" stroke-width="2.5"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,130 Q40,60 90,130 Z" fill="#1b5e20"/>
+              <rect x="20" y="32" width="60" height="22" rx="4" fill="#d32f2f" stroke="#ffeb3b" stroke-width="2"/>
+              <text x="50" y="47" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">홍 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,130 Q45,50 90,130 Z" fill="#2e7d32"/>
+              <path d="M25,130 Q50,70 75,130 Z" fill="#1b5e20"/>
+              <circle cx="50" cy="65" r="7" fill="#d32f2f"/>
+            </svg>`;
+          }
+        case 2: // 2월 매화
+          if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M15,130 Q40,75 80,45" stroke="#5d4037" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <circle cx="30" cy="80" r="9" fill="#e91e63"/>
+              <circle cx="65" cy="60" r="9" fill="#e91e63"/>
+              <!-- 휘파람새 (고도리) -->
+              <ellipse cx="48" cy="38" rx="16" ry="10" fill="#7cb342" stroke="#33691e" stroke-width="1.5"/>
+              <circle cx="60" cy="34" r="7" fill="#7cb342"/>
+              <polygon points="66,34 74,36 66,38" fill="#f57f17"/>
+              <polygon points="35,39 20,45 36,46" fill="#33691e"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M15,130 Q45,70 85,55" stroke="#5d4037" stroke-width="6" fill="none"/>
+              <circle cx="28" cy="95" r="9" fill="#e91e63"/><circle cx="72" cy="65" r="9" fill="#e91e63"/>
+              <rect x="20" y="30" width="60" height="22" rx="4" fill="#d32f2f" stroke="#ffeb3b" stroke-width="2"/>
+              <text x="50" y="45" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">홍 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M20,130 Q50,65 80,65" stroke="#5d4037" stroke-width="6" fill="none"/>
+              <circle cx="32" cy="82" r="10" fill="#e91e63"/>
+              <circle cx="68" cy="72" r="10" fill="#e91e63"/>
+              <circle cx="50" cy="110" r="9" fill="#e91e63"/>
+            </svg>`;
+          }
+        case 3: // 3월 벚꽃
+          if (cardType === 'bright') {
+            return `<svg viewBox="0 0 100 130">
+              <!-- 장막 (만막) -->
+              <rect x="10" y="75" width="80" height="40" rx="3" fill="#8e24aa" stroke="#4a148c" stroke-width="2.5"/>
+              <line x1="10" y1="84" x2="90" y2="84" stroke="#ffeb3b" stroke-width="3.5"/>
+              <!-- 벚꽃 -->
+              <circle cx="28" cy="38" r="12" fill="#f48fb1"/>
+              <circle cx="72" cy="42" r="13" fill="#f48fb1"/>
+              <circle cx="50" cy="24" r="14" fill="#ec407a"/>
+              <circle cx="50" cy="24" r="5" fill="#ffeb3b"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="32" cy="80" r="12" fill="#f48fb1"/>
+              <circle cx="70" cy="90" r="12" fill="#f48fb1"/>
+              <rect x="20" y="30" width="60" height="22" rx="4" fill="#d32f2f" stroke="#ffeb3b" stroke-width="2"/>
+              <text x="50" y="45" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">홍 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="32" cy="48" r="13" fill="#f48fb1"/>
+              <circle cx="68" cy="52" r="13" fill="#f48fb1"/>
+              <circle cx="50" cy="85" r="15" fill="#ec407a"/>
+              <circle cx="50" cy="85" r="5" fill="#fff"/>
+            </svg>`;
+          }
+        case 4: // 4월 흑싸리
+          if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M15,10 Q35,70 20,120 M45,10 Q65,65 50,120 M75,10 Q90,70 80,120" stroke="#212121" stroke-width="4.5" fill="none"/>
+              <!-- 두견새 -->
+              <ellipse cx="62" cy="68" rx="14" ry="9" fill="#3f51b5"/>
+              <polygon points="74,66 82,68 74,70" fill="#ffb300"/>
+              <polygon points="50,69 38,76 52,75" fill="#1a237e"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M22,10 Q40,65 28,120 M72,10 Q85,65 75,120" stroke="#212121" stroke-width="4.5" fill="none"/>
+              <rect x="20" y="42" width="60" height="22" rx="4" fill="#8e24aa" stroke="#e1bee7" stroke-width="2"/>
+              <text x="50" y="57" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">초 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M18,10 Q35,65 22,120 M48,10 Q62,65 52,120 M78,10 Q88,65 80,120" stroke="#212121" stroke-width="5" fill="none"/>
+            </svg>`;
+          }
+        case 5: // 5월 난초(창포)
+          if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,120 L90,60 L80,48 L0,108 Z" fill="#795548" stroke="#4e342e" stroke-width="1.5"/>
+              <path d="M22,130 Q35,55 52,35 M45,130 Q62,45 78,30" stroke="#2e7d32" stroke-width="6" fill="none"/>
+              <ellipse cx="52" cy="33" rx="9" ry="14" fill="#6a1b9a"/>
+              <ellipse cx="78" cy="30" rx="9" ry="14" fill="#6a1b9a"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M28,130 Q45,65 62,45 M55,130 Q68,60 82,40" stroke="#2e7d32" stroke-width="6" fill="none"/>
+              <ellipse cx="62" cy="45" rx="9" ry="12" fill="#6a1b9a"/>
+              <rect x="20" y="28" width="60" height="22" rx="4" fill="#8e24aa" stroke="#e1bee7" stroke-width="2"/>
+              <text x="50" y="43" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">초 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M22,130 Q38,55 55,35 M50,130 Q66,55 78,40 M38,130 Q44,75 32,45" stroke="#2e7d32" stroke-width="5.5" fill="none"/>
+              <ellipse cx="55" cy="35" rx="8" ry="12" fill="#6a1b9a"/>
+            </svg>`;
+          }
+        case 6: // 6월 모란(목단)
+          if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="48" cy="85" r="25" fill="#ad1457"/>
+              <circle cx="48" cy="85" r="14" fill="#e91e63"/>
+              <!-- 나비 -->
+              <ellipse cx="66" cy="36" rx="9" ry="7" fill="#ffb300"/>
+              <ellipse cx="46" cy="33" rx="8" ry="6" fill="#ff8f00"/>
+              <circle cx="55" cy="35" r="3.5" fill="#212121"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="50" cy="88" r="24" fill="#ad1457"/>
+              <rect x="20" y="28" width="60" height="22" rx="4" fill="#1565c0" stroke="#90caf9" stroke-width="2"/>
+              <text x="50" y="43" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">청 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="50" cy="75" r="26" fill="#ad1457"/>
+              <circle cx="50" cy="75" r="12" fill="#ff80ab"/>
+              <path d="M25,120 Q50,90 75,120" fill="#2e7d32"/>
+            </svg>`;
+          }
+        case 7: // 7월 홍싸리
+          if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M15,130 Q40,55 85,130" fill="#c62828"/>
+              <!-- 멧돼지 -->
+              <ellipse cx="50" cy="82" rx="23" ry="16" fill="#3e2723"/>
+              <polygon points="30,84 18,87 30,91" fill="#3e2723"/>
+              <circle cx="32" cy="79" r="3" fill="#ffeb3b"/>
+              <path d="M38,68 L48,62 L56,68" stroke="#212121" stroke-width="2.5" fill="none"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M20,130 Q50,70 80,130" fill="#c62828"/>
+              <rect x="20" y="32" width="60" height="22" rx="4" fill="#8e24aa" stroke="#e1bee7" stroke-width="2"/>
+              <text x="50" y="47" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">초 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,130 Q50,60 90,130" fill="#c62828"/>
+              <path d="M28,130 Q50,80 72,130" fill="#8e0000"/>
+            </svg>`;
+          }
+        case 8: // 8월 팔공산 (공산명월)
+          if (cardType === 'bright') {
+            return `<svg viewBox="0 0 100 130">
+              <rect width="100" height="88" fill="#b71c1c"/>
+              <circle cx="50" cy="46" r="28" fill="#ffffff" stroke="#ffeb3b" stroke-width="2"/>
+              <path d="M0,130 Q50,70 100,130 Z" fill="#212121"/>
+            </svg>`;
+          } else if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M0,130 Q50,80 100,130 Z" fill="#212121"/>
+              <!-- 기러기 3마리 (고도리) -->
+              <path d="M28,32 Q36,24 44,32 Q52,24 60,32" stroke="#212121" stroke-width="3.5" fill="none"/>
+              <path d="M50,50 Q58,42 66,50 Q74,42 82,50" stroke="#212121" stroke-width="3.5" fill="none"/>
+              <path d="M20,64 Q28,56 36,64 Q44,56 52,64" stroke="#212121" stroke-width="3.5" fill="none"/>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M0,130 Q50,80 100,130 Z" fill="#212121"/>
+              <path d="M28,82 L34,60 M50,76 L52,55 M72,85 L78,62" stroke="#795548" stroke-width="2.5"/>
+            </svg>`;
+          }
+        case 9: // 9월 국진
+          if (cardType === 'animal' || cardType === 'double') {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="50" cy="46" r="26" fill="#fbc02d"/>
+              <circle cx="50" cy="46" r="15" fill="#f57f17"/>
+              <!-- 국화 술잔 壽 (쌍피 겸용) -->
+              <ellipse cx="50" cy="98" rx="26" ry="17" fill="#d32f2f" stroke="#8b0000" stroke-width="2.5"/>
+              <text x="50" y="104" font-size="16" fill="#ffeb3b" font-weight="900" text-anchor="middle" font-family="serif">壽</text>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="50" cy="85" r="25" fill="#fbc02d"/>
+              <rect x="20" y="28" width="60" height="22" rx="4" fill="#1565c0" stroke="#90caf9" stroke-width="2"/>
+              <text x="50" y="43" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">청 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <circle cx="32" cy="68" r="20" fill="#fbc02d"/>
+              <circle cx="68" cy="85" r="20" fill="#fbc02d"/>
+              <circle cx="32" cy="68" r="9" fill="#f57f17"/>
+            </svg>`;
+          }
+        case 10: // 10월 단풍
+          if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,130 Q30,55 85,130" fill="#e65100"/>
+              <!-- 사슴 -->
+              <ellipse cx="55" cy="75" rx="18" ry="13" fill="#8d6e63"/>
+              <circle cx="40" cy="60" r="9" fill="#8d6e63"/>
+              <path d="M38,52 L32,38 M41,52 L45,36 M32,42 L27,45" stroke="#3e2723" stroke-width="3" fill="none"/>
+              <circle cx="37" cy="59" r="2.5" fill="#212121"/>
+              <line x1="47" y1="87" x2="45" y2="108" stroke="#4e342e" stroke-width="3.5"/>
+              <line x1="64" y1="87" x2="66" y2="108" stroke="#4e342e" stroke-width="3.5"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M15,130 Q50,70 85,130" fill="#e65100"/>
+              <rect x="20" y="28" width="60" height="22" rx="4" fill="#1565c0" stroke="#90caf9" stroke-width="2"/>
+              <text x="50" y="43" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">청 단</text>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,130 Q50,60 90,130" fill="#e65100"/>
+              <path d="M32,130 Q50,80 68,130" fill="#bf360c"/>
+            </svg>`;
+          }
+        case 11: // 11월 오동(똥)
+          if (cardType === 'bright') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M50,70 Q22,85 18,122 Q50,110 50,70" fill="#212121"/>
+              <path d="M50,70 Q78,85 82,122 Q50,110 50,70" fill="#212121"/>
+              <path d="M50,55 Q32,70 50,118 Q68,70 50,55" fill="#c62828"/>
+              <!-- 봉황 머리 -->
+              <circle cx="50" cy="28" r="11" fill="#ffb300"/>
+              <path d="M42,26 Q50,12 58,20" stroke="#ff8f00" stroke-width="3.5" fill="none"/>
+              <polygon points="58,28 67,31 58,34" fill="#d32f2f"/>
+              <circle cx="52" cy="26" r="2.5" fill="#212121"/>
+            </svg>`;
+          } else if (cardType === 'double') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M50,50 Q22,75 22,122 Q50,105 50,50" fill="#212121"/>
+              <path d="M50,50 Q78,75 78,122 Q50,105 50,50" fill="#212121"/>
+              <path d="M50,38 Q38,65 50,118 Q62,65 50,38" fill="#ffb300"/>
+            </svg>`;
+          } else {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M50,55 Q22,80 22,122 Q50,105 50,55" fill="#212121"/>
+              <path d="M50,55 Q78,80 78,122 Q50,105 50,55" fill="#212121"/>
+            </svg>`;
+          }
+        case 12: // 12월 비
+          if (cardType === 'bright') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M10,18 Q42,80 15,130" stroke="#2e7d32" stroke-width="9" fill="none"/>
+              <!-- 비선생 우산 선비 -->
+              <ellipse cx="65" cy="54" rx="20" ry="9" fill="#d32f2f"/>
+              <ellipse cx="65" cy="74" rx="13" ry="20" fill="#1565c0"/>
+              <!-- 개구리 -->
+              <ellipse cx="34" cy="110" rx="10" ry="7" fill="#7cb342"/>
+              <circle cx="31" cy="106" r="2.5" fill="#000"/>
+              <line x1="82" y1="14" x2="72" y2="36" stroke="#90caf9" stroke-width="2.5"/>
+              <line x1="92" y1="45" x2="82" y2="67" stroke="#90caf9" stroke-width="2.5"/>
+            </svg>`;
+          } else if (cardType === 'animal') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M18,10 Q60,70 28,130" stroke="#2e7d32" stroke-width="7" fill="none"/>
+              <!-- 제비 -->
+              <ellipse cx="62" cy="55" rx="15" ry="9" fill="#212121"/>
+              <polygon points="46,55 34,50 42,58 34,62" fill="#212121"/>
+              <polygon points="74,55 83,57 74,59" fill="#ffb300"/>
+              <circle cx="70" cy="53" r="2" fill="#fff"/>
+            </svg>`;
+          } else if (cardType === 'ribbon') {
+            return `<svg viewBox="0 0 100 130">
+              <path d="M18,10 Q50,70 28,130" stroke="#2e7d32" stroke-width="7" fill="none"/>
+              <rect x="20" y="42" width="60" height="22" rx="4" fill="#d32f2f" stroke="#ffeb3b" stroke-width="2"/>
+              <text x="50" y="57" font-size="12" fill="#fff" font-weight="900" text-anchor="middle">비 띠</text>
+            </svg>`;
+          } else {
+            // 비 쌍피 (라쇼몽 번개와 도깨비 손)
+            return `<svg viewBox="0 0 100 130">
+              <rect width="100" height="130" fill="#212121"/>
+              <polygon points="42,12 66,12 48,55 72,55 32,118 52,70 34,70" fill="#ffeb3b"/>
+              <circle cx="50" cy="115" r="11" fill="#d32f2f"/>
+            </svg>`;
+          }
+      }
+      return `<svg viewBox="0 0 100 130"><rect width="100" height="130" fill="#eee"/></svg>`;
+    }
+
+    // Build the 48 Card Deck with Authentic Physical Hwatu Artwork
+    const DECK = [];
+    let cardCounter = 1;
+
+    for (let m = 1; m <= 12; m++) {
+      if (m === 1) {
+        DECK.push({ id: cardCounter++, month: 1, type: 'bright', typeName: '광 (光)', label: '1광 (송학)', image: 'hwatu_cards/m01_c1_bright.svg' });
+        DECK.push({ id: cardCounter++, month: 1, type: 'ribbon-red', typeName: '홍단', label: '홍단 (송학)', image: 'hwatu_cards/m01_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 1, type: 'junk', typeName: '피 (1점)', label: '솔 피 1', image: 'hwatu_cards/m01_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 1, type: 'junk', typeName: '피 (1점)', label: '솔 피 2', image: 'hwatu_cards/m01_c4_junk2.svg' });
+      } else if (m === 2) {
+        DECK.push({ id: cardCounter++, month: 2, type: 'animal', typeName: '10끗 · 고도리', label: '고도리 (휘파람새)', image: 'hwatu_cards/m02_c1_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 2, type: 'ribbon-red', typeName: '홍단', label: '홍단 (매화)', image: 'hwatu_cards/m02_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 2, type: 'junk', typeName: '피 (1점)', label: '매화 피 1', image: 'hwatu_cards/m02_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 2, type: 'junk', typeName: '피 (1점)', label: '매화 피 2', image: 'hwatu_cards/m02_c4_junk2.svg' });
+      } else if (m === 3) {
+        DECK.push({ id: cardCounter++, month: 3, type: 'bright', typeName: '광 (光)', label: '3광 (벚꽃/만막)', image: 'hwatu_cards/m03_c1_bright.svg' });
+        DECK.push({ id: cardCounter++, month: 3, type: 'ribbon-red', typeName: '홍단', label: '홍단 (벚꽃)', image: 'hwatu_cards/m03_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 3, type: 'junk', typeName: '피 (1점)', label: '벚꽃 피 1', image: 'hwatu_cards/m03_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 3, type: 'junk', typeName: '피 (1점)', label: '벚꽃 피 2', image: 'hwatu_cards/m03_c4_junk2.svg' });
+      } else if (m === 4) {
+        DECK.push({ id: cardCounter++, month: 4, type: 'animal', typeName: '10끗', label: '두견새 (흑싸리)', image: 'hwatu_cards/m04_c1_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 4, type: 'ribbon-plain', typeName: '초단', label: '초단 (흑싸리)', image: 'hwatu_cards/m04_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 4, type: 'junk', typeName: '피 (1점)', label: '흑싸리 피 1', image: 'hwatu_cards/m04_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 4, type: 'junk', typeName: '피 (1점)', label: '흑싸리 피 2', image: 'hwatu_cards/m04_c4_junk2.svg' });
+      } else if (m === 5) {
+        DECK.push({ id: cardCounter++, month: 5, type: 'animal', typeName: '10끗', label: '다리 (난초)', image: 'hwatu_cards/m05_c1_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 5, type: 'ribbon-plain', typeName: '초단', label: '초단 (난초)', image: 'hwatu_cards/m05_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 5, type: 'junk', typeName: '피 (1점)', label: '난초 피 1', image: 'hwatu_cards/m05_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 5, type: 'junk', typeName: '피 (1점)', label: '난초 피 2', image: 'hwatu_cards/m05_c4_junk2.svg' });
+      } else if (m === 6) {
+        DECK.push({ id: cardCounter++, month: 6, type: 'animal', typeName: '10끗', label: '나비 (모란)', image: 'hwatu_cards/m06_c1_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 6, type: 'ribbon-blue', typeName: '청단', label: '청단 (모란)', image: 'hwatu_cards/m06_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 6, type: 'junk', typeName: '피 (1점)', label: '모란 피 1', image: 'hwatu_cards/m06_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 6, type: 'junk', typeName: '피 (1점)', label: '모란 피 2', image: 'hwatu_cards/m06_c4_junk2.svg' });
+      } else if (m === 7) {
+        DECK.push({ id: cardCounter++, month: 7, type: 'animal', typeName: '10끗', label: '멧돼지 (홍싸리)', image: 'hwatu_cards/m07_c1_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 7, type: 'ribbon-plain', typeName: '초단', label: '초단 (홍싸리)', image: 'hwatu_cards/m07_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 7, type: 'junk', typeName: '피 (1점)', label: '홍싸리 피 1', image: 'hwatu_cards/m07_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 7, type: 'junk', typeName: '피 (1점)', label: '홍싸리 피 2', image: 'hwatu_cards/m07_c4_junk2.svg' });
+      } else if (m === 8) {
+        DECK.push({ id: cardCounter++, month: 8, type: 'bright', typeName: '광 (光)', label: '8광 (보름달)', image: 'hwatu_cards/m08_c1_bright.svg' });
+        DECK.push({ id: cardCounter++, month: 8, type: 'animal', typeName: '10끗 · 고도리', label: '고도리 (기러기)', image: 'hwatu_cards/m08_c2_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 8, type: 'junk', typeName: '피 (1점)', label: '팔공산 피 1', image: 'hwatu_cards/m08_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 8, type: 'junk', typeName: '피 (1점)', label: '팔공산 피 2', image: 'hwatu_cards/m08_c4_junk2.svg' });
+      } else if (m === 9) {
+        DECK.push({ id: cardCounter++, month: 9, type: 'double', typeName: '★ 쌍피 겸용 (10끗)', label: '술잔 (국화 쌍피)', image: 'hwatu_cards/m09_c1_double.svg' });
+        DECK.push({ id: cardCounter++, month: 9, type: 'ribbon-blue', typeName: '청단', label: '청단 (국화)', image: 'hwatu_cards/m09_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 9, type: 'junk', typeName: '피 (1점)', label: '국화 피 1', image: 'hwatu_cards/m09_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 9, type: 'junk', typeName: '피 (1점)', label: '국화 피 2', image: 'hwatu_cards/m09_c4_junk2.svg' });
+      } else if (m === 10) {
+        DECK.push({ id: cardCounter++, month: 10, type: 'animal', typeName: '10끗', label: '사슴 (단풍)', image: 'hwatu_cards/m10_c1_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 10, type: 'ribbon-blue', typeName: '청단', label: '청단 (단풍)', image: 'hwatu_cards/m10_c2_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 10, type: 'junk', typeName: '피 (1점)', label: '단풍 피 1', image: 'hwatu_cards/m10_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 10, type: 'junk', typeName: '피 (1점)', label: '단풍 피 2', image: 'hwatu_cards/m10_c4_junk2.svg' });
+      } else if (m === 11) {
+        DECK.push({ id: cardCounter++, month: 11, type: 'bright', typeName: '광 (光)', label: '11광 (오동/봉황)', image: 'hwatu_cards/m11_c1_bright.svg' });
+        DECK.push({ id: cardCounter++, month: 11, type: 'double', typeName: '★ 쌍피 (2점)', label: '오동 쌍피', image: 'hwatu_cards/m11_c2_double.svg' });
+        DECK.push({ id: cardCounter++, month: 11, type: 'junk', typeName: '피 (1점)', label: '오동 피 1', image: 'hwatu_cards/m11_c3_junk1.svg' });
+        DECK.push({ id: cardCounter++, month: 11, type: 'junk', typeName: '피 (1점)', label: '오동 피 2', image: 'hwatu_cards/m11_c4_junk2.svg' });
+      } else if (m === 12) {
+        DECK.push({ id: cardCounter++, month: 12, type: 'bright', typeName: '광 (비광)', label: '12광 (비선생)', image: 'hwatu_cards/m12_c1_bright.svg' });
+        DECK.push({ id: cardCounter++, month: 12, type: 'animal', typeName: '10끗', label: '제비 (비)', image: 'hwatu_cards/m12_c2_animal.svg' });
+        DECK.push({ id: cardCounter++, month: 12, type: 'ribbon-red', typeName: '비 띠', label: '비 띠', image: 'hwatu_cards/m12_c3_ribbon.svg' });
+        DECK.push({ id: cardCounter++, month: 12, type: 'double', typeName: '★ 쌍피 (2점)', label: '비 쌍피 (라쇼몽)', image: 'hwatu_cards/m12_c4_double.svg' });
+      }
+    }
+
+    // 1. 화투 특징(1~12월, 광여부, 띠여부, 쌍피여부)이 확실히 보이도록 렌더링
+    function renderCardHTML(card, isFlipped = false) {
+      let isClass = 'is-junk';
+      let typeBadgeClass = 'junk';
+      let stampHtml = '';
+
+      if (card.type === 'bright') {
+        isClass = 'is-bright';
+        typeBadgeClass = 'bright';
+        stampHtml = '<div class="bright-stamp">光</div>';
+      } else if (card.type === 'animal') {
+        isClass = 'is-animal';
+        typeBadgeClass = 'animal';
+      } else if (card.type === 'ribbon-red') {
+        isClass = 'is-ribbon-red';
+        typeBadgeClass = 'ribbon-red';
+      } else if (card.type === 'ribbon-blue') {
+        isClass = 'is-ribbon-blue';
+        typeBadgeClass = 'ribbon-blue';
+      } else if (card.type === 'ribbon-plain') {
+        isClass = 'is-ribbon-plain';
+        typeBadgeClass = 'ribbon-plain';
+      } else if (card.type === 'double') {
+        isClass = 'is-double';
+        typeBadgeClass = 'double';
+        stampHtml = '<div class="double-stamp">쌍피 2점</div>';
+      }
+
+      return `
+        <div class="hwatu-card ${isClass} ${isFlipped ? 'flipped' : ''}" data-id="${card.id}" data-month="${card.month}">
+          <div class="card-inner">
+            <div class="card-face card-back"></div>
+            <div class="card-face card-front">
+              <div class="card-header-badge">
+                <span class="badge-month">${card.month}월</span>
+                <span class="badge-type ${typeBadgeClass}">${card.typeName}</span>
+              </div>
+              <div class="card-artwork">
+                <img src="${card.image}" alt="${card.label}" class="hwatu-img" draggable="false" />
+                ${stampHtml}
+              </div>
+              <div class="card-bottom-label">${card.label}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================
+       3. COMPREHENSIVE FORTUNE DATABASE
+       ========================================================= */
+    const FORTUNE_BY_MONTH = {
+      1: {
+        title: "기다리던 반가운 소식과 귀인이 찾아오는 길운",
+        summary: "1월 송학은 솔잎의 푸르른 생명력과 학의 고결함을 품고 있어, 멀리서 반가운 기별이나 뜻밖의 좋은 제안이 당도함을 알립니다. 막혀있던 소통이 시원하게 풀리는 날입니다.",
+        money: "문서와 계약운이 따릅니다. 밀렸던 입금이나 정산, 혹은 좋은 거래 제의가 오갈 수 있습니다.",
+        love: "오랫동안 연락이 뜸했던 사람에게서 다정한 안부가 오거나, 새로운 만남에서 마음이 잘 통합니다.",
+        action: "오전 중에 먼저 안부 문자나 다정한 연락을 건네보세요. 복이 두 배가 됩니다.",
+        luckyColor: "초록색 & 백색",
+        luckyDirection: "동쪽",
+        luckyFood: "따뜻한 솔잎차 또는 보리밥 정식",
+        score: 5
+      },
+      2: {
+        title: "소중한 사람과의 정이 돈독해지고 애정이 꽃피는 날",
+        summary: "2월 매조는 추위를 뚫고 피어난 매화 향기에 이끌려 온 휘파람새처럼, 마음에 두고 있던 사람이나 정다운 동반자와의 유대가 한층 깊어지는 날입니다.",
+        money: "협력과 파트너십을 통해 이익이 생깁니다. 혼자 독단적으로 결정하기보다 주변의 조언을 구하면 길합니다.",
+        love: "연애운과 대인운이 최고조에 달합니다. 썸이나 데이트에서 호감도가 급상승하며 오해가 눈 녹듯 풀립니다.",
+        action: "고마운 분이나 연인에게 작고 정성 어린 칭찬 한마디를 건네보세요.",
+        luckyColor: "분홍색 & 연두색",
+        luckyDirection: "남동쪽",
+        luckyFood: "달콤한 과일 디저트 또는 딸기 라떼",
+        score: 5
+      },
+      3: {
+        title: "활기찬 에너지로 밖으로 나가 즐거운 결실을 맺는 날",
+        summary: "3월 벚꽃은 화사한 봄날의 나들이와 활력을 상징합니다. 실내에만 머무르기보다는 가벼운 산책이나 외출을 통해 신선한 영감을 얻을 수 있습니다.",
+        money: "기분 전환을 위한 소비가 있을 수 있으나, 미래를 위한 기분 좋은 투자로 작용합니다.",
+        love: "새로운 모임이나 야외 활동에서 매력적인 호감을 사게 됩니다. 밝은 미소가 최고의 무기입니다.",
+        action: "점심 식사 후 가볍게 햇볕을 쬐며 10분 이상 산책을 즐겨보세요.",
+        luckyColor: "연분홍 & 노란색",
+        luckyDirection: "남쪽",
+        luckyFood: "샌드위치, 봄나물 비빔밥",
+        score: 4
+      },
+      4: {
+        title: "언행을 신중히 하고 차분하게 내실을 다져야 할 때",
+        summary: "4월 흑싸리는 등나무 가지처럼 얽히기 쉬우므로, 사소한 말실수나 불필요한 참견을 주의하라는 지혜를 줍니다. 묵묵히 내 일에만 집중하면 무탈하고 평온합니다.",
+        money: "충동적인 지출이나 검증되지 않은 투자 제안은 단호히 거절하는 것이 돈을 지키는 길입니다.",
+        love: "사소한 자존심 싸움이나 말꼬리 잡기를 피하고, 상대방의 이야기를 묵묵히 경청해주는 것이 좋습니다.",
+        action: "중요한 말이나 메시지는 한 번 더 퇴고한 뒤 전송하세요. 조용한 음악이 마음을 다스려줍니다.",
+        luckyColor: "보라색 & 진회색",
+        luckyDirection: "북서쪽",
+        luckyFood: "따뜻한 카모마일 티 또는 순두부찌개",
+        score: 3
+      },
+      5: {
+        title: "풍성한 식복과 즐거운 대접이 기다리는 화합의 날",
+        summary: "5월 난초(창포)는 잔칫집의 길다란 국수 면발처럼 기쁜 소식과 맛있는 음식이 풍성하게 오가는 식복(食福)의 날입니다. 지인과의 식사 자리가 복을 부릅니다.",
+        money: "지출이 다소 생기더라도 사람을 얻는 귀한 투자가 됩니다. 작은 베풂이 더 큰 혜택으로 돌아옵니다.",
+        love: "함께 맛있는 음식을 나누며 깊은 유대감을 형성할 수 있습니다. 소개팅이나 만남 약속에 매우 좋습니다.",
+        action: "동료나 지인에게 작은 간식이나 커피 한 잔을 건네보세요.",
+        luckyColor: "자주색 & 연보라색",
+        luckyDirection: "남서쪽",
+        luckyFood: "국수, 잔치국수, 파스타 등 면 요리",
+        score: 4
+      },
+      6: {
+        title: "꽃 중의 왕 모란처럼 품격과 경사가 가득한 하루",
+        summary: "6월 목단은 부귀화(富貴花)로 불리는 꽃으로, 오랜 노력의 결실이 빛을 발하고 주변 사람들로부터 축하와 존경을 받게 되는 경사스러운 운세입니다.",
+        money: "안정적인 수익과 더불어 가외의 보너스나 작은 인센티브를 기대해볼 수 있습니다.",
+        love: "서로의 매력을 강하게 확인하는 날입니다. 당당하고 품격 있는 태도가 상대의 마음을 사로잡습니다.",
+        action: "단정하고 깔끔한 옷차림으로 자신감을 뽐내보세요. 당신이 주인공이 됩니다.",
+        luckyColor: "진홍색 & 골드",
+        luckyDirection: "남쪽",
+        luckyFood: "정갈한 한정식 또는 스테이크",
+        score: 5
+      },
+      7: {
+        title: "뜻밖의 행운과 재물이 불쑥 굴러들어오는 횡재수",
+        summary: "7월 홍싸리는 덤불을 헤치고 나온 멧돼지처럼 강력한 추진력과 생각지도 못했던 재물 획득의 기회를 뜻합니다. 주저하지 말고 과감하게 실행하세요.",
+        money: "이벤트 당첨, 소소한 복권, 잊고 있던 포인트 환급 등 뜻밖의 불로소득이나 횡재수가 열려 있습니다.",
+        love: "적극적인 표현이 뜻밖의 설렘을 만듭니다. 마음을 숨기지 말고 솔직하게 대시해보세요.",
+        action: "평소 미뤄두었던 결단이나 도전을 오늘 실행에 옮기세요. 빠른 결정이 행운을 잡습니다.",
+        luckyColor: "빨간색 & 주황색",
+        luckyDirection: "서쪽",
+        luckyFood: "매콤한 볶음 요리 또는 제육볶음",
+        score: 5
+      },
+      8: {
+        title: "휘영청 밝은 보름달처럼 막힘없이 소원이 성취되는 대길운",
+        summary: "8월 공산명월은 어둠을 환하게 비추는 보름달처럼 모든 일이 명쾌하게 풀리고 목표하던 바를 당당히 성취하는 최고의 길운입니다.",
+        money: "재물운과 명예운이 동시에 상승합니다. 노력에 걸맞은 확실한 대가와 찬사가 뒤따릅니다.",
+        love: "마음속 소원이 현실이 됩니다. 갈등이 있던 관계는 극적으로 화해하고, 솔로는 낭만적인 만남이 가능합니다.",
+        action: "오늘 밤 하늘의 달을 바라보며 마음속 가장 간절한 소원 한 가지를 빌어보세요.",
+        luckyColor: "아이보리 & 블랙",
+        luckyDirection: "북동쪽",
+        luckyFood: "달콤한 찹쌀떡 또는 호박죽",
+        score: 5
+      },
+      9: {
+        title: "풍류와 여유 속에 몸과 마음이 치유되는 힐링의 날",
+        summary: "9월 국화와 목숨 수(壽) 술잔은 건강 장수와 풍류를 의미합니다. 치열한 경쟁에서 한 발 물러나 여유를 만끽할 때 비로소 더 큰 혜안이 떠오릅니다.",
+        money: "무리한 욕심을 부리지 않으면 곳간이 넉넉합니다. 안정적인 자산 관리가 최선입니다.",
+        love: "편안한 대화 속에서 자연스러운 친밀감이 싹틉니다. 가식 없는 솔직한 모습이 매력입니다.",
+        action: "퇴근 후 좋아하는 음악과 함께 차 한 잔, 혹은 가벼운 반주로 피로를 풀어주세요.",
+        luckyColor: "황금색 & 황갈색",
+        luckyDirection: "서남쪽",
+        luckyFood: "국화차, 메밀전, 전골 요리",
+        score: 4
+      },
+      10: {
+        title: "차분하게 마음을 가라앉히고 불필요한 짐을 덜어내는 날",
+        summary: "10월 단풍은 늦가을 잎을 떨구듯, 과거의 미련이나 불필요한 걱정을 내려놓고 다음 단계를 준비해야 함을 시사합니다. 무리한 약속보다는 휴식이 필요합니다.",
+        money: "예상치 못한 소소한 지출이 생길 수 있으니 영수증과 카드 내역을 꼼꼼히 점검하세요.",
+        love: "상대방에게 너무 많은 기대를 걸기보다는 각자의 사적인 시간을 존중해주는 배려가 필요합니다.",
+        action: "책상 정리나 스마트폰의 불필요한 사진/앱을 지우며 미니멀한 정돈을 해보세요.",
+        luckyColor: "갈색 & 주황색",
+        luckyDirection: "북쪽",
+        luckyFood: "군고구마, 따뜻한 둥글레차",
+        score: 3
+      },
+      11: {
+        title: "황금 봉황이 날아들듯 큰 재물과 복록이 깃드는 대통운",
+        summary: "11월 오동(똥)은 화투에서 가장 확실한 재물과 큰 횡재를 상징합니다. 봉황이 깃드는 오동나무처럼 귀한 기회가 주어지며 주머니가 두둑해질 날입니다.",
+        money: "금전운 최상! 투자 수익, 보너스, 계약 성사 등 굵직한 금전적 보상이 뒤따를 수 있습니다.",
+        love: "물심양면으로 나를 지지해주는 든든한 상대를 만나거나, 연인에게 귀한 선물을 주고받습니다.",
+        action: "오늘 생기는 좋은 기운을 아끼지 말고 주변에 베풀면 더 큰 복으로 되돌아옵니다.",
+        luckyColor: "골드 & 다크그린",
+        luckyDirection: "중앙 & 동남쪽",
+        luckyFood: "풍성한 고기 요리 또는 영양솥밥",
+        score: 5
+      },
+      12: {
+        title: "비를 긋고 지혜로 위기를 기회로 바꾸는 귀인과의 조우",
+        summary: "12월 비는 처마 밑에서 비를 피하듯, 예상치 못한 돌발 상황이 생기더라도 현명한 대처와 귀인의 도움으로 오히려 전화위복(轉禍爲福)을 이루는 날입니다.",
+        money: "갑작스런 지출 유혹이 올 수 있으나, 침착하게 한 번 더 따져보면 손실을 막을 수 있습니다.",
+        love: "우연한 계기로 마주친 인연이 중요한 열쇠가 됩니다. 곤란할 때 손을 내미는 사람이 진짜 내 편입니다.",
+        action: "비가 오지 않더라도 우산이나 여분의 물품을 챙겨두는 유비무환의 자세를 취해보세요.",
+        luckyColor: "네이비 & 스카이블루",
+        luckyDirection: "북서쪽",
+        luckyFood: "따끈한 칼국수 또는 김치전",
+        score: 4
+      }
+    };
+
+    /* =========================================================
+       4. CONTROLLER & STATE
+       ========================================================= */
+    // 3. 패뜨기가 기본 모드(trad-mode)
+    let currentTab = 'draw-mode';
+
+    // DAILY DRAW STATE (2차 모드)
+    let selectedDrawCards = [];
+    let requiredDrawCount = 3;
+    let isDrawCompleted = false;
+    let isComfortMode = false; // 위로 모드 상태 (행운 카드 70% 확률)
+
+    // TRADITIONAL MATCHING STATE (패뜨기 기본 모드)
+    let tradDeck = [];
+    let tradPiles = {};
+    let tradCurrentCard = null;
+    let tradMatchedMonths = 0;
+    let tradAutoInterval = null;
+
+    // DOM ELEMENTS
+    const toastEl = document.getElementById('toast');
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    const soundText = document.getElementById('soundText');
+    const infoBtn = document.getElementById('infoBtn');
+    const infoModal = document.getElementById('infoModal');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    // TAB SWITCHING
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        switchTab(tab);
+      });
+    });
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 2500);
+    }
+
+    function switchTab(tabId) {
+      currentTab = tabId;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+      document.querySelectorAll('.view-section').forEach(s => s.classList.toggle('active', s.id === tabId));
+      audio.playCardFlip();
+
+      if (tabId === 'draw-mode' && selectedDrawCards.length === 0 && !isDrawCompleted) {
+        resetDailyDraw();
+      }
+      if (tabId === 'trad-mode' && tradDeck.length === 0 && Object.keys(tradPiles).length === 0) {
+        initTradMatching();
+      }
+    }
+
+    // Sound toggle (2. 기본 모드: 음소거 해제/설정)
+    soundToggleBtn.addEventListener('click', () => {
+      const isMuted = audio.toggleMute();
+      if (isMuted) {
+        soundIcon.textContent = '🔇';
+        soundText.textContent = '소리 켜기';
+        showToast('소리가 꺼졌습니다.');
+      } else {
+        soundIcon.textContent = '🔊';
+        soundText.textContent = '소리 끄기';
+        showToast('소리가 켜졌습니다.');
+        audio.playCardSlap();
+      }
+    });
+
+    // Modal
+    infoBtn.addEventListener('click', () => {
+      infoModal.classList.add('open');
+      audio.playCardFlip();
+    });
+    modalCloseBtn.addEventListener('click', () => {
+      infoModal.classList.remove('open');
+    });
+    infoModal.addEventListener('click', (e) => {
+      if (e.target === infoModal) infoModal.classList.remove('open');
+    });
+
+    /* =========================================================
+       5. MODE 1 (기본): 패뜨기 (전통 4패 모으기 소원점)
+       ========================================================= */
+    const monthPilesGrid = document.getElementById('monthPilesGrid');
+    const tradRemaining = document.getElementById('tradRemaining');
+    const tradMatches = document.getElementById('tradMatches');
+    const tradNextBtn = document.getElementById('tradNextBtn');
+    const tradAutoBtn = document.getElementById('tradAutoBtn');
+    const tradResetBtn = document.getElementById('tradResetBtn');
+    const tradDrawDeck = document.getElementById('tradDrawDeck');
+    const tradCurrentSlot = document.getElementById('tradCurrentSlot');
+    const tradResultPanel = document.getElementById('tradResultPanel');
+
+    function initTradMatching() {
+      if (tradAutoInterval) clearInterval(tradAutoInterval);
+      tradAutoInterval = null;
+      tradAutoBtn.innerHTML = '<span>⚡</span> 자동 풀이';
+
+      tradDeck = [...DECK].sort(() => Math.random() - 0.5);
+      tradPiles = {};
+      for (let m = 1; m <= 12; m++) {
+        tradPiles[m] = [];
+      }
+      tradMatchedMonths = 0;
+      tradCurrentCard = null;
+
+      tradRemaining.textContent = tradDeck.length;
+      tradMatches.textContent = '0';
+      tradCurrentSlot.innerHTML = '<span style="font-size:0.75rem; color:#777;">패를 뒤집으세요</span>';
+      tradResultPanel.style.display = 'none';
+
+      renderMonthPiles();
+      audio.playShuffle();
+      showToast('패뜨기 소원점을 시작합니다. 패를 뒤집어보세요.');
+    }
+
+    function renderMonthPiles() {
+      monthPilesGrid.innerHTML = '';
+      for (let m = 1; m <= 12; m++) {
+        const meta = MONTH_META[m];
+        const cards = tradPiles[m] || [];
+        const isCompleted = cards.length === 4;
+
+        const slotCard = document.createElement('div');
+        slotCard.className = `month-slot-card ${isCompleted ? 'completed' : ''}`;
+        slotCard.id = `monthSlot_${m}`;
+
+        let topCardHTML = '';
+        if (cards.length > 0) {
+          const lastCard = cards[cards.length - 1];
+          topCardHTML = renderCardHTML(lastCard, true);
+        }
+
+        slotCard.innerHTML = `
+          <div class="month-slot-title">${meta.name}</div>
+          <div class="month-meaning-badge">${meta.symbol.split(' ')[0]}</div>
+          <div class="month-cards-stack">
+            ${topCardHTML}
+            <div class="month-count-badge">${cards.length}/4</div>
+            ${isCompleted ? '<div class="completed-stamp">성공!</div>' : ''}
+          </div>
+        `;
+        monthPilesGrid.appendChild(slotCard);
+      }
+    }
+
+    function drawNextTradCard() {
+      if (tradDeck.length === 0) {
+        showToast('모든 패를 확인했습니다.');
+        return false;
+      }
+
+      const card = tradDeck.pop();
+      tradCurrentCard = card;
+      tradRemaining.textContent = tradDeck.length;
+
+      audio.playCardSlap();
+
+      tradCurrentSlot.innerHTML = renderCardHTML(card, true);
+      tradPiles[card.month].push(card);
+
+      const pileCards = tradPiles[card.month];
+      const slotEl = document.getElementById(`monthSlot_${card.month}`);
+      if (slotEl) {
+        const stackEl = slotEl.querySelector('.month-cards-stack');
+        stackEl.innerHTML = `
+          ${renderCardHTML(card, true)}
+          <div class="month-count-badge">${pileCards.length}/4</div>
+          ${pileCards.length === 4 ? '<div class="completed-stamp">성공!</div>' : ''}
+        `;
+
+        if (pileCards.length === 4) {
+          tradMatchedMonths++;
+          tradMatches.textContent = tradMatchedMonths;
+          slotEl.classList.add('completed');
+          audio.playWinChime();
+          showToast(`★ ${MONTH_META[card.month].name} 4장 완성! (${MONTH_META[card.month].symbol})`);
+        }
+      }
+
+      if (tradDeck.length === 0) {
+        if (tradAutoInterval) {
+          clearInterval(tradAutoInterval);
+          tradAutoInterval = null;
+          tradAutoBtn.innerHTML = '<span>⚡</span> 자동 풀이';
+        }
+        setTimeout(() => {
+          renderTradResult();
+        }, 500);
+        return false;
+      }
+
+      return true;
+    }
+
+    function renderTradResult() {
+      tradResultPanel.style.display = 'block';
+      audio.playWinChime();
+
+      const matchedList = [];
+      for (let m = 1; m <= 12; m++) {
+        if (tradPiles[m].length === 4) {
+          matchedList.push(m);
+        }
+      }
+
+      let fortuneHeadline = "";
+      let wishSuccessRate = 0;
+      let detailedReport = "";
+
+      if (matchedList.length >= 4) {
+        wishSuccessRate = 100;
+        fortuneHeadline = "천우신조(天佑神助)! 소원이 반드시 이루어지는 대통운";
+        detailedReport = "4개 이상의 달이 완벽하게 모였습니다! 전통 화투점에서 가장 진귀한 최고 등급의 괘입니다. 현재 품고 있는 소원이나 계획은 막힘없이 일사천리로 성사될 것입니다.";
+      } else if (matchedList.length === 3) {
+        wishSuccessRate = 90;
+        fortuneHeadline = "삼양개태(三陽開泰)! 만사형통과 높은 소원 성취율";
+        detailedReport = "3개 달이 완성되었습니다! 대단히 상서로운 기운이 감돌며, 준비해온 일들이 결실을 맺고 귀인의 조력을 얻어 기쁨을 누릴 것입니다.";
+      } else if (matchedList.length === 2) {
+        wishSuccessRate = 75;
+        fortuneHeadline = "쌍희임문(雙喜臨門)! 두 가지 기쁜 일과 순조로운 진행";
+        detailedReport = "2개의 달이 짝을 찾았습니다. 안정적이고 순탄한 하루이며, 노력한 만큼 정직하고 확실한 보답이 주어집니다.";
+      } else if (matchedList.length === 1) {
+        wishSuccessRate = 50;
+        fortuneHeadline = "일점명등(一點明燈)! 하나의 소중한 기회와 알짜배기 실속";
+        detailedReport = "1개의 달이 완성되었습니다. 여러 가지 일을 벌이기보다 가장 중요한 한 가지 목표에 집중하면 큰 성과를 거둘 수 있습니다.";
+      } else {
+        wishSuccessRate = 30;
+        fortuneHeadline = "수신제가(修身齊家)! 차분하게 기반을 닦고 때를 기다리는 날";
+        detailedReport = "비록 4장이 완성된 달은 없으나, 액운을 털어내고 새로운 에너지를 축적하는 충전의 날입니다. 조급해하지 말고 차분히 준비하면 내일 더 큰 운이 옵니다.";
+      }
+
+      let matchedPillsHtml = '';
+      if (matchedList.length > 0) {
+        matchedList.forEach(m => {
+          const meta = MONTH_META[m];
+          matchedPillsHtml += `
+            <div class="result-box" style="border-left:4px solid var(--lacquer-red-light);">
+              <h3 style="color:#ffca28;">🎉 ${meta.name} 완성 (${meta.symbol})</h3>
+              <p>${FORTUNE_BY_MONTH[m].summary}</p>
+            </div>
+          `;
+        });
+      } else {
+        matchedPillsHtml = `
+          <div class="result-box">
+            <h3>🌱 오늘의 조언</h3>
+            <p>오늘은 큰 승부나 무리한 베팅보다는 주변을 정리하고 몸과 마음을 정갈하게 가꾸기에 가장 적절한 날입니다.</p>
+          </div>
+        `;
+      }
+
+      tradResultPanel.innerHTML = `
+        <div class="result-header">
+          <h2>🎯 전통 패뜨기 소원 성취 판정</h2>
+          <div class="result-score-stars">소원 성취 확률: ${wishSuccessRate}%</div>
+          <div class="result-headline">${fortuneHeadline}</div>
+          <p style="color:var(--gold-light); font-size:0.9rem; margin-top:4px;">
+            완성된 달: <strong>${matchedList.length}개</strong> ${matchedList.length > 0 ? `(${matchedList.map(m => MONTH_META[m].name.split(' ')[0]).join(', ')})` : '(없음)'}
+          </p>
+        </div>
+
+        <div class="result-box" style="margin-bottom:16px;">
+          <h3>📜 종합 점괘 해설</h3>
+          <p>${detailedReport}</p>
+        </div>
+
+        <div class="result-grid">
+          ${matchedPillsHtml}
+        </div>
+
+        <div class="result-footer">
+          <button class="btn-action" onclick="copyTradText()">
+            <span>📋</span> 점괘 결과 복사
+          </button>
+          <button class="btn-action" style="background:#4a2c1d;" onclick="initTradMatching()">
+            <span>🔄</span> 화투점 다시 치기
+          </button>
+        </div>
+      `;
+
+      tradResultPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.copyTradText = function() {
+      const text = tradResultPanel.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('패뜨기 결과가 클립보드에 복사되었습니다!');
+      }).catch(() => {
+        showToast('복사에 실패했습니다.');
+      });
+    };
+
+    tradNextBtn.addEventListener('click', () => drawNextTradCard());
+    tradDrawDeck.addEventListener('click', () => drawNextTradCard());
+
+    tradAutoBtn.addEventListener('click', () => {
+      if (tradAutoInterval) {
+        clearInterval(tradAutoInterval);
+        tradAutoInterval = null;
+        tradAutoBtn.innerHTML = '<span>⚡</span> 자동 풀이';
+        showToast('자동 풀이가 일시정지되었습니다.');
+      } else {
+        tradAutoBtn.innerHTML = '<span>⏸</span> 일시정지';
+        tradAutoInterval = setInterval(() => {
+          const hasMore = drawNextTradCard();
+          if (!hasMore) {
+            clearInterval(tradAutoInterval);
+            tradAutoInterval = null;
+            tradAutoBtn.innerHTML = '<span>⚡</span> 자동 풀이';
+          }
+        }, 110);
+      }
+    });
+
+    tradResetBtn.addEventListener('click', () => initTradMatching());
+
+    /* =========================================================
+       6. MODE 2 (2차): 오늘의 패 고르기 (1장 / 3장 운세)
+       ========================================================= */
+    const deckFanWrapper = document.getElementById('deckFanWrapper');
+    const drawnSlotsContainer = document.getElementById('drawnSlotsContainer');
+    const drawResultPanel = document.getElementById('drawResultPanel');
+    const drawInstruction = document.getElementById('drawInstruction');
+    const reshuffleBtn = document.getElementById('reshuffleBtn');
+
+    document.querySelectorAll('input[name="drawCount"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        requiredDrawCount = parseInt(e.target.value, 10);
+        resetDailyDraw();
+      });
+    });
+
+
+    // 행운의 카드 여부 판정 (광 5장, 쌍피 3장, 5점 대길 월의 고도리/열끗/단 패)
+    function isLuckyCard(card) {
+      if (card.type === 'bright') return true; // 1광, 3광, 8광, 11광, 12광
+      if (card.type === 'double') return true; // 9월 술잔(쌍피), 11월 쌍피, 12월 쌍피
+      // 대길(score 5) 월의 열끗 및 띠 (1월 송학 홍단, 2월 매화 고도리/홍단, 6월 모란 나비/청단, 7월 홍싸리 멧돼지, 8월 팔공산 고도리 등)
+      if (FORTUNE_BY_MONTH[card.month] && FORTUNE_BY_MONTH[card.month].score === 5) {
+        if (card.type === 'animal' || card.type.startsWith('ribbon')) return true;
+      }
+      return false;
+    }
+
+    // 운세 모드 선택 버튼 (일반 모드 vs 위로 모드)
+    const btnNormalMode = document.getElementById('btnNormalMode');
+    const btnComfortMode = document.getElementById('btnComfortMode');
+    const headerComfortBtn = document.getElementById('headerComfortBtn');
+    const headerComfortText = document.getElementById('headerComfortText');
+
+    function setComfortMode(enable) {
+      isComfortMode = enable;
+      if (isComfortMode) {
+        if (btnNormalMode) btnNormalMode.classList.remove('active');
+        if (btnComfortMode) btnComfortMode.classList.add('active');
+        if (headerComfortBtn) {
+          headerComfortBtn.classList.add('comfort-active');
+          if (headerComfortText) headerComfortText.textContent = '위로 모드 ON';
+        }
+        showToast('💖 위로 모드가 선택되었습니다.');
+      } else {
+        if (btnNormalMode) btnNormalMode.classList.add('active');
+        if (btnComfortMode) btnComfortMode.classList.remove('active');
+        if (headerComfortBtn) {
+          headerComfortBtn.classList.remove('comfort-active');
+          if (headerComfortText) headerComfortText.textContent = '위로 모드 OFF';
+        }
+        showToast('🎲 일반 모드가 선택되었습니다. 100% 무작위 셔플링이 적용됩니다.');
+      }
+      audio.playCardFlip();
+      resetDailyDraw();
+    }
+
+    if (btnNormalMode) {
+      btnNormalMode.addEventListener('click', () => setComfortMode(false));
+    }
+    if (btnComfortMode) {
+      btnComfortMode.addEventListener('click', () => setComfortMode(true));
+    }
+    if (headerComfortBtn) {
+      headerComfortBtn.addEventListener('click', () => setComfortMode(!isComfortMode));
+    }
+
+    reshuffleBtn.addEventListener('click', () => {
+      audio.playShuffle();
+      showToast('화투패를 정성껏 다시 섞습니다...');
+      resetDailyDraw();
+    });
+
+    function resetDailyDraw() {
+      selectedDrawCards = [];
+      isDrawCompleted = false;
+      drawResultPanel.style.display = 'none';
+
+      const comfortSuffix = isComfortMode ? " [💖 위로 모드]" : "";
+      if (requiredDrawCount === 1) {
+        drawInstruction.textContent = "마음을 가다듬고 아래 펼쳐진 패 중 1장을 신중히 골라주세요." + comfortSuffix;
+      } else {
+        drawInstruction.textContent = "아침, 점심, 저녁의 운세를 위해 차례대로 3장의 패를 골라주세요. (0 / 3)" + comfortSuffix;
+      }
+
+      drawnSlotsContainer.innerHTML = '';
+      const slotLabels = requiredDrawCount === 1 ? ['오늘의 총운'] : ['아침 운세', '점심 운세', '저녁 운세'];
+
+      for (let i = 0; i < requiredDrawCount; i++) {
+        const slotDiv = document.createElement('div');
+        slotDiv.className = 'drawn-slot';
+        slotDiv.innerHTML = `
+          <div class="slot-label">${slotLabels[i]}</div>
+          <div class="slot-box" id="drawSlot_${i}">
+            <span style="font-size:0.75rem; color:rgba(255,255,255,0.4);">선택 대기</span>
+          </div>
+        `;
+        drawnSlotsContainer.appendChild(slotDiv);
+      }
+
+      renderDeckFan();
+    }
+
+    function renderDeckFan() {
+      deckFanWrapper.innerHTML = '';
+      const shuffled = [...DECK].sort(() => Math.random() - 0.5);
+
+      const totalCards = 48;
+      const angleSpread = 68; // 1/2 셔플창에 맞춘 컴팩트 부채꼴
+      const startAngle = -angleSpread / 2;
+      const step = angleSpread / (totalCards - 1);
+
+      shuffled.forEach((card, idx) => {
+        const cardAngle = startAngle + idx * step;
+        const cardEl = document.createElement('div');
+        cardEl.className = 'hwatu-card deck-card';
+        cardEl.dataset.id = card.id;
+
+        cardEl.style.transform = `rotate(${cardAngle}deg) translateY(-14px)`;
+        cardEl.style.zIndex = idx + 1;
+
+        cardEl.innerHTML = `
+          <div class="card-inner">
+            <div class="card-face card-back"></div>
+          </div>
+        `;
+
+        cardEl.addEventListener('click', () => {
+          handleCardDraw(card, cardEl);
+        });
+
+        deckFanWrapper.appendChild(cardEl);
+      });
+    }
+
+    function handleCardDraw(card, cardEl) {
+      if (isDrawCompleted) return;
+      if (selectedDrawCards.some(c => c.id === card.id)) return;
+
+      const currentSlotIdx = selectedDrawCards.length;
+      if (currentSlotIdx >= requiredDrawCount) return;
+
+      // 위로 모드 70% 확률 판정: 행운의 카드 70%, 나머지 무작위 30%
+      let drawnCard = card;
+      if (isComfortMode) {
+        const remainingLucky = DECK.filter(c => isLuckyCard(c) && !selectedDrawCards.some(s => s.id === c.id));
+        const remainingAll = DECK.filter(c => !selectedDrawCards.some(s => s.id === c.id));
+        
+        const willDrawLucky = Math.random() < 0.70;
+        if (willDrawLucky && remainingLucky.length > 0) {
+          drawnCard = remainingLucky[Math.floor(Math.random() * remainingLucky.length)];
+        } else if (remainingAll.length > 0) {
+          drawnCard = remainingAll[Math.floor(Math.random() * remainingAll.length)];
+        }
+      }
+
+      audio.playCardSlap();
+
+      selectedDrawCards.push(drawnCard);
+      cardEl.style.pointerEvents = 'none';
+      cardEl.style.opacity = '0.3';
+      cardEl.style.transform += ' scale(0.9)';
+
+      const targetSlot = document.getElementById(`drawSlot_${currentSlotIdx}`);
+      targetSlot.innerHTML = renderCardHTML(drawnCard, false);
+
+      const slottedCard = targetSlot.querySelector('.hwatu-card');
+      setTimeout(() => {
+        audio.playCardFlip();
+        slottedCard.classList.add('flipped');
+      }, 150);
+
+      if (requiredDrawCount === 3) {
+        drawInstruction.textContent = `아침, 점심, 저녁의 운세를 위해 차례대로 패를 골라주세요. (${selectedDrawCards.length} / 3)`;
+      }
+
+      if (selectedDrawCards.length === requiredDrawCount) {
+        isDrawCompleted = true;
+        drawInstruction.textContent = "선택이 완료되었습니다! 오늘의 운세를 풀이합니다.";
+        setTimeout(() => {
+          audio.playWinChime();
+          renderDailyDrawResult();
+        }, 600);
+      }
+    }
+
+    function renderDailyDrawResult() {
+      drawResultPanel.style.display = 'block';
+
+      if (requiredDrawCount === 1) {
+        const card = selectedDrawCards[0];
+        const fortune = FORTUNE_BY_MONTH[card.month];
+        const stars = "★".repeat(fortune.score) + "☆".repeat(5 - fortune.score);
+
+        let bonusText = "";
+        if (card.type === 'bright') bonusText = " 🌟 [광(光) 패 획득: 최고의 대길 대통!]";
+        else if (card.type === 'animal') bonusText = " 🪶 [10끗 패 획득: 활발한 성취와 행동력]";
+        else if (card.type.startsWith('ribbon')) bonusText = " 📜 [단(띠) 패 획득: 약속 성사 및 문서운]";
+        else if (card.type === 'double') bonusText = " ✨ [쌍피 획득: 두 배의 알짜배기 실속]";
+
+        const comfortNotice = isComfortMode ? `
+          <div class="comfort-banner">
+            💖 <strong>위로 모드 적용 중</strong>: 지친 당신의 하루를 응원하며 따뜻한 행운의 기운을 불어넣어 드립니다!
+          </div>` : '';
+
+        drawResultPanel.innerHTML = `
+          ${comfortNotice}
+          <div class="result-header">
+            <h2>🎴 오늘의 화투점 총평</h2>
+            <div class="result-score-stars">${stars} (행운 지수: ${fortune.score * 20}점)</div>
+            <div class="result-headline">${fortune.title}${bonusText}</div>
+            <p style="color:var(--gold-light); font-size:0.9rem; margin-top:4px;">
+              뽑힌 패: <strong>${card.label}</strong> (${card.typeName}) - 상징: <strong>${MONTH_META[card.month].symbol}</strong>
+            </p>
+          </div>
+
+          <div class="result-grid">
+            <div class="result-box">
+              <h3>📜 오늘의 총운 풀이</h3>
+              <p>${fortune.summary}</p>
+            </div>
+            <div class="result-box">
+              <h3>💰 금전 & 비즈니스운</h3>
+              <p>${fortune.money}</p>
+            </div>
+            <div class="result-box">
+              <h3>💖 애정 & 대인관계운</h3>
+              <p>${fortune.love}</p>
+            </div>
+            <div class="result-box">
+              <h3>💡 오늘의 행운 비책 & 행동</h3>
+              <p>${fortune.action}</p>
+              <div class="lucky-tags">
+                <span class="lucky-tag">🎨 행운의 색: ${fortune.luckyColor}</span>
+                <span class="lucky-tag">🧭 행운의 방위: ${fortune.luckyDirection}</span>
+                <span class="lucky-tag">🍲 추천 음식: ${fortune.luckyFood}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-footer">
+            <button class="btn-action" onclick="copyFortuneText()">
+              <span>📋</span> 운세 결과 복사
+            </button>
+            <button class="btn-action" style="background:#4a2c1d;" onclick="resetDailyDraw()">
+              <span>🔄</span> 한 번 더 고르기
+            </button>
+          </div>
+        `;
+      } else {
+        const timeNames = ['아침 (오전 운세)', '점심 (오후 운세)', '저녁 (야간/마무리 운세)'];
+        let avgScore = Math.round(selectedDrawCards.reduce((acc, c) => acc + FORTUNE_BY_MONTH[c.month].score, 0) / 3);
+        const stars = "★".repeat(avgScore) + "☆".repeat(5 - avgScore);
+
+        let gridHtml = '';
+        selectedDrawCards.forEach((card, idx) => {
+          const fortune = FORTUNE_BY_MONTH[card.month];
+          gridHtml += `
+            <div class="result-box">
+              <h3>⏰ ${timeNames[idx]} - ${card.label}</h3>
+              <p style="color:var(--gold-light); font-weight:700; margin-bottom:4px;">[${MONTH_META[card.month].symbol}] ${fortune.title}</p>
+              <p style="margin-bottom:8px;">${fortune.summary}</p>
+              <p style="font-size:0.83rem; color:#dcd3cc;"><strong>포인트:</strong> ${idx === 0 ? fortune.action : (idx === 1 ? fortune.money : fortune.love)}</p>
+            </div>
+          `;
+        });
+
+        const dominantMonth = selectedDrawCards[0].month;
+        const domFortune = FORTUNE_BY_MONTH[dominantMonth];
+
+        const comfortNotice = isComfortMode ? `
+          <div class="comfort-banner">
+            💖 <strong>위로 모드 적용 중</strong>: 지친 당신의 하루를 응원하며 따뜻한 행운의 기운을 불어넣어 드립니다!
+          </div>` : '';
+
+        drawResultPanel.innerHTML = `
+          ${comfortNotice}
+          <div class="result-header">
+            <h2>🎴 하루 흐름 3패 운세 리포트</h2>
+            <div class="result-score-stars">${stars} (종합 행운 지수: ${avgScore * 20}점)</div>
+            <div class="result-headline">아침의 활기, 오후의 결실, 저녁의 평온한 화합</div>
+          </div>
+
+          <div class="result-grid">
+            ${gridHtml}
+          </div>
+
+          <div class="result-box" style="margin-bottom:20px;">
+            <h3>✨ 오늘의 하루 총괄 조언</h3>
+            <p>${domFortune.summary} 하루 전체적으로 <strong>${domFortune.action}</strong> 실천하시면 더욱 번창할 것입니다.</p>
+            <div class="lucky-tags">
+              <span class="lucky-tag">🎨 추천 색상: ${domFortune.luckyColor}</span>
+              <span class="lucky-tag">🧭 길한 방위: ${domFortune.luckyDirection}</span>
+              <span class="lucky-tag">🍲 행운의 메뉴: ${domFortune.luckyFood}</span>
+            </div>
+          </div>
+
+          <div class="result-footer">
+            <button class="btn-action" onclick="copyFortuneText()">
+              <span>📋</span> 3패 운세 복사
+            </button>
+            <button class="btn-action" style="background:#4a2c1d;" onclick="resetDailyDraw()">
+              <span>🔄</span> 다시 고르기
+            </button>
+          </div>
+        `;
+      }
+
+      drawResultPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.copyFortuneText = function() {
+      const text = drawResultPanel.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('운세 결과가 클립보드에 복사되었습니다!');
+      }).catch(() => {
+        showToast('복사에 실패했습니다.');
+      });
+    };
+
+    // INITIALIZATION (3패 운수 기본 모드로 즉시 준비)
+    window.addEventListener('DOMContentLoaded', () => {
+      resetDailyDraw();
+    });
+  </script>
+</body>
+</html>
